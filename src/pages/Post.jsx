@@ -10,7 +10,6 @@ function Post() {
     const { slug } = useParams();
     const navigate = useNavigate();
     
-    // Get user data from Redux store
     const userData = useSelector((state) => state.auth.userData);
 
     useEffect(() => {
@@ -27,7 +26,6 @@ function Post() {
         }
     }, [slug, navigate]);
 
-    // Handle post deletion
     const deletePost = () => {
         appwriteService.deletePost(post.$id).then((status) => {
             if (status) {
@@ -37,7 +35,6 @@ function Post() {
         });
     };
 
-    // Calculate isAuthor inside the component body
     const isAuthor = Boolean(post?.userId && userData?.$id && post.userId === userData.$id);
 
     if (!post) {
@@ -51,20 +48,19 @@ function Post() {
     return (
         <div className="min-h-screen bg-bg text-text">
             <Container>
-                <div className="max-w-3xl mx-auto py-8">
+                <div className="max-w-3xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
                     <div className="relative mb-6">
                         <img
                             src={appwriteService.getFilePreview(post.featuredImage)}
                             alt={post.title}
-                            className="w-full rounded-lg"
+                            className="w-full rounded-lg object-cover h-48 sm:h-64 md:h-96"
                         />
                         
-                        {/* Edit and Delete buttons for author */}
                         {isAuthor && (
-                            <div className="absolute right-4 top-4 flex gap-2">
+                            <div className="absolute right-4 top-4 flex flex-col sm:flex-row gap-2">
                                 <Link to={`/edit-post/${post.$id}`}>
                                     <Button 
-                                        className="bg-accent-color-green text-white hover:bg-accent-color-brown transition-colors"
+                                        className="bg-accent-color-green text-white hover:bg-accent-color-brown transition-colors w-full sm:w-auto"
                                     >
                                         Edit
                                     </Button>
@@ -72,21 +68,21 @@ function Post() {
 
                                 {!showConfirmation ? (
                                     <Button
-                                        className="bg-red-500 text-white hover:bg-red-700 transition-colors"
+                                        className="bg-red-500 text-white hover:bg-red-700 transition-colors w-full sm:w-auto"
                                         onClick={() => setShowConfirmation(true)}
                                     >
                                         Delete
                                     </Button>
                                 ) : (
-                                    <div className="flex gap-2">
+                                    <div className="flex flex-col sm:flex-row gap-2">
                                         <Button
-                                            className="bg-red-500 text-white hover:bg-red-700 transition-colors"
+                                            className="bg-red-500 text-white hover:bg-red-700 transition-colors w-full sm:w-auto"
                                             onClick={deletePost}
                                         >
                                             Confirm Delete
                                         </Button>
                                         <Button
-                                            className="bg-gray-500 text-white hover:bg-gray-700 transition-colors"
+                                            className="bg-gray-500 text-white hover:bg-gray-700 transition-colors w-full sm:w-auto"
                                             onClick={() => setShowConfirmation(false)}
                                         >
                                             Cancel
@@ -97,9 +93,9 @@ function Post() {
                         )}
                     </div>
                     
-                    <h1 className="text-3xl font-bold mb-4">{post.title}</h1>
+                    <h1 className="text-2xl sm:text-3xl font-bold mb-4">{post.title}</h1>
                     
-                    <div className="prose prose-lg whitespace-pre-wrap">
+                    <div className="prose prose-sm sm:prose-lg max-w-none whitespace-pre-wrap">
                         <div dangerouslySetInnerHTML={{ __html: post.content }} />
                     </div>
                 </div>

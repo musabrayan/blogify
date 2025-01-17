@@ -87,8 +87,12 @@ export default function PostForm({ post }) {
     }, [watch, slugTransform, setValue]);
 
     return (
-        <form onSubmit={handleSubmit(submit)} className="flex flex-wrap">
-            <div className="w-2/3 px-2">
+        <form 
+            onSubmit={handleSubmit(submit)} 
+            className="flex flex-wrap lg:flex-nowrap space-y-6 lg:space-y-0"
+        >
+            {/* Left Section */}
+            <div className="w-full lg:w-2/3 px-4 space-y-4">
                 <Input
                     label="Title :"
                     placeholder="Title"
@@ -111,9 +115,12 @@ export default function PostForm({ post }) {
                     name="content" 
                     control={control} 
                     defaultValue={getValues("content")} 
+                    className="h-48 sm:h-64"
                 />
             </div>
-            <div className="w-1/3 px-2">
+
+            {/* Right Section */}
+            <div className="w-full lg:w-1/3 px-4 space-y-4">
                 <Input
                     label="Featured Image :"
                     type="file"
@@ -138,8 +145,7 @@ export default function PostForm({ post }) {
                 />
                 <Button 
                     type="submit" 
-                    bgColor={post ? "bg-green-500" : undefined} 
-                    className="w-full"
+                    className="w-full py-3"
                     disabled={loading}
                 >
                     {loading ? "Uploading..." : (post ? "Update" : "Submit")}

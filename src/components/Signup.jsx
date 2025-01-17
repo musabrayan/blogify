@@ -41,12 +41,12 @@ function Signup() {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-bg text-text">
-            <div className="w-full max-w-md p-8 space-y-8 bg-secondaryBg rounded-lg shadow-lg">
-                <div className="flex justify-center mb-4">
-                    <Logo width="100px" />
+        <div className="min-h-screen flex items-center justify-center bg-bg text-text px-4 sm:px-6 md:px-8">
+            <div className="w-full max-w-md p-4 sm:p-6 md:p-8 space-y-6 sm:space-y-8 bg-secondaryBg rounded-lg shadow-lg">
+                <div className="flex justify-center mb-2 sm:mb-4">
+                    <Logo width="130px" className="sm:w-[100px]" />
                 </div>
-                <form onSubmit={handleSubmit(create)} className="space-y-6">
+                <form onSubmit={handleSubmit(create)} className="space-y-4 sm:space-y-6">
                     <Input
                         label="Email"
                         type="email"
@@ -80,21 +80,17 @@ function Signup() {
                             validate: value => value === getValues("password") || "Passwords do not match"
                         })}
                     />
-                    {error && <p className="text-red-500 text-center">{error}</p>}
+                    {error && <p className="text-red-500 text-center text-sm sm:text-base">{error}</p>}
                     <Button
                         type="submit"
-                        className="w-full"
-                        bgColor="bg-accent-color-green"
-                        textColor="text-white"
-                        hoverBgColor="hover:bg-accent-color-brown"
-                        hoverTextColor="hover:text-black"
+                        className="w-full text-sm sm:text-base"
                     >
                         Sign Up
                     </Button>
                 </form>
-                <div className="text-center">
+                <div className="text-center text-sm sm:text-base">
                     <p>
-                        Already have an account? <Link to="/login" className="text-accent-color-green hover:text-accent-color-brown">Login</Link>
+                        Already have an account? <Link to="/login" className="text-accentGreen hover:text-accentBrown">Login</Link>
                     </p>
                 </div>
             </div>
