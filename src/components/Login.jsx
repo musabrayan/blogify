@@ -49,17 +49,13 @@ function Login() {
                     <Button
                         type="submit"
                         className="w-full"
-                        bgColor="bg-accent-color-green"
-                        textColor="text-white"
-                        hoverBgColor="hover:bg-accent-color-brown"
-                        hoverTextColor="hover:text-white"
                     >
                         Login
                     </Button>
                 </form>
                 <div className="text-center">
                     <p>
-                        Don't have an account? <Link to="/signup" className="text-accent-color-green hover:text-accent-color-brown">Sign up</Link>
+                        Don't have an account? <Link to="/signup" className="text-accentGreen hover:text-accentBrown">Sign up</Link>
                     </p>
                 </div>
             </div>
