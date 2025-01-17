@@ -10,10 +10,17 @@ function Signup() {
     const navigate = useNavigate();
     const [error, setError] = useState("");
     const dispatch = useDispatch();
-    const { register, handleSubmit } = useForm();
+    const { register, handleSubmit, getValues } = useForm();
 
     const create = async (data) => {
         setError("");
+        
+        // Check if passwords match
+        if (data.password !== data.confirmPassword) {
+            setError("Passwords do not match");
+            return;
+        }
+
         try {
             const userData = await authService.createAccount(data);
             if (userData) {
@@ -22,7 +29,14 @@ function Signup() {
                 navigate('/');
             }
         } catch (err) {
-            setError("Failed to create account");
+            // Check for specific Appwrite error codes
+            if (err.code === 409) { // Appwrite's code for conflict/duplicate
+                setError("Account with this email already exists");
+            } else if (err.code === 400) { // Bad request
+                setError("Invalid email or password format");
+            } else {
+                setError(err.message || "Failed to create account");
+            }
         }
     };
 
@@ -37,21 +51,36 @@ function Signup() {
                         label="Email"
                         type="email"
                         placeholder="Enter your email"
-                        {...register("email", { required: true })}
+                        {...register("email", {
+                            required: true,
+                            pattern: {
+                                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                                message: "Invalid email address"
+                            }
+                        })}
                     />
                     <Input
                         label="Password"
                         type="password"
                         placeholder="Enter your password"
-                        {...register("password", { required: true })}
+                        {...register("password", {
+                            required: true,
+                            minLength: {
+                                value: 8,
+                                message: "Password must be at least 8 characters"
+                            }
+                        })}
                     />
                     <Input
                         label="Confirm Password"
                         type="password"
                         placeholder="Confirm your password"
-                        {...register("confirmPassword", { required: true })}
+                        {...register("confirmPassword", {
+                            required: true,
+                            validate: value => value === getValues("password") || "Passwords do not match"
+                        })}
                     />
-                    {error && <p className="text-red-500">{error}</p>}
+                    {error && <p className="text-red-500 text-center">{error}</p>}
                     <Button
                         type="submit"
                         className="w-full"

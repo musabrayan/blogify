@@ -12,9 +12,6 @@ function Post() {
     
     // Get user data from Redux store
     const userData = useSelector((state) => state.auth.userData);
-    
-    // Check if current user is the author
-    const isAuthor = post && userData ? post.userId === userData.$id : false;
 
     useEffect(() => {
         if (slug) {
@@ -39,6 +36,9 @@ function Post() {
             }
         });
     };
+
+    // Calculate isAuthor inside the component body
+    const isAuthor = Boolean(post?.userId && userData?.$id && post.userId === userData.$id);
 
     if (!post) {
         return (
